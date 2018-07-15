@@ -1,0 +1,51 @@
+package com;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class google {
+	WebDriver driver;
+
+	@BeforeTest
+	public void setUp() {
+		WebDriverManager.chromedriver().setup();
+		driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	}
+
+	@Test
+	public void Test1() throws InterruptedException {
+
+		driver.manage().window().fullscreen();
+		driver.get("https://www.google.com/");
+		driver.findElement(By.xpath("//input[@id='lst-ib']")).sendKeys("Selenium" + Keys.ENTER);
+
+		List<WebElement> allLinks = driver.findElements(By.xpath("//h3[@class='r']"));
+
+		for (WebElement eachLink : allLinks) {
+			if(!eachLink.getText().isEmpty()) {
+			//System.out.println(eachLink.getSize());
+			
+			Thread.sleep(2000);
+			driver.findElement(By.xpath("//span[.='Next']")).click();
+			
+			System.out.println(eachLink.getText());
+			
+		}
+
+	}
+	}
+}
+
